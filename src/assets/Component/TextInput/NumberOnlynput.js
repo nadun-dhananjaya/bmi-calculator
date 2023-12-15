@@ -4,6 +4,18 @@ import InputMask from "inputmask";
 const NumberOnlyInput = ({ id, label, value, onChange, placeholder }) => {
   const inputRef = useRef("");
 
+  const handleInput = (e) => {
+    const value = e.target.value;
+
+    // Check for the first two digits to move to the whole number section
+    if (value.length >= 2 && !value.includes(".") && !value.includes(",")) {
+      const wholeNumber = value.slice(0, value.length - 2);
+      const decimalPart = value.slice(value.length - 2);
+
+      inputRef.current.value = `${wholeNumber}.${decimalPart}`;
+    }
+  };
+
   useEffect(() => {
     InputMask({
       alias: "numeric",
